@@ -2,6 +2,7 @@ using System.Reflection;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Persistence.Seeders;
 
 namespace Persistence.Contexts;
 
@@ -33,5 +34,6 @@ public class BaseDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        DbSeeder.Seed(modelBuilder);
     }
 }

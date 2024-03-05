@@ -12,7 +12,7 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    [Migration("20240224022320_mig_1")]
+    [Migration("20240305152210_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />
@@ -140,6 +140,71 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("01627ffa-445c-4111-b0f8-935c96814454"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(819),
+                            Description = "Fresh Meat",
+                            Name = "Fresh Meat"
+                        },
+                        new
+                        {
+                            Id = new Guid("2fedbbd7-46a5-487d-bc3a-51243f1280b3"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(822),
+                            Description = "Vegetables",
+                            Name = "Vegetables"
+                        },
+                        new
+                        {
+                            Id = new Guid("77bf0937-7055-47a6-950a-77b2328da3c6"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(823),
+                            Description = "Fresh Fruits",
+                            Name = "Fresh Fruits"
+                        },
+                        new
+                        {
+                            Id = new Guid("2411b221-ec3d-4170-9978-d958440bd35f"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(825),
+                            Description = "Dried Fruits & Nuts",
+                            Name = "Dried Fruits & Nuts"
+                        },
+                        new
+                        {
+                            Id = new Guid("8e978bdb-2528-48f2-bf61-d7e5c342d5a8"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(826),
+                            Description = "Ocean Foods",
+                            Name = "Ocean Foods"
+                        },
+                        new
+                        {
+                            Id = new Guid("3bbd6712-dba4-40aa-904a-a12898fcdb65"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(828),
+                            Description = "Butter & Eggs",
+                            Name = "Butter & Eggs"
+                        },
+                        new
+                        {
+                            Id = new Guid("e9b8588e-25dd-45a2-926a-ce313035bdbc"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(829),
+                            Description = "Fastfood",
+                            Name = "Fastfood"
+                        },
+                        new
+                        {
+                            Id = new Guid("3acbce70-bf9e-4ed8-bf9f-bb1311a82899"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(830),
+                            Description = "Oatmeal",
+                            Name = "Oatmeal"
+                        },
+                        new
+                        {
+                            Id = new Guid("52021e7d-7e0f-4e09-ae74-8e1891752f1a"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(831),
+                            Description = "Juices",
+                            Name = "Juices"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Comment", b =>
@@ -923,6 +988,158 @@ namespace Persistence.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("6db7024e-aa6e-4cb9-89eb-cc877e0f7042"),
+                            CategoryId = new Guid("52021e7d-7e0f-4e09-ae74-8e1891752f1a"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(888),
+                            Description = "Mixed Fruit Juice",
+                            Name = "Mixed Fruit Juice",
+                            Price = 410m,
+                            QuantityAvailable = 100
+                        },
+                        new
+                        {
+                            Id = new Guid("8a15110d-2f57-4d49-b983-8adff3e3574a"),
+                            CategoryId = new Guid("2411b221-ec3d-4170-9978-d958440bd35f"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(891),
+                            Description = "Mango",
+                            Name = "Mango",
+                            Price = 112m,
+                            QuantityAvailable = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("1fd43c98-1bfb-4a83-914c-9bad663eb0ef"),
+                            CategoryId = new Guid("3acbce70-bf9e-4ed8-bf9f-bb1311a82899"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(894),
+                            Description = "Hamburger",
+                            Name = "Hamburger",
+                            Price = 494m,
+                            QuantityAvailable = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("f1f1639a-d3e0-4ec9-9d47-cde00d43e44f"),
+                            CategoryId = new Guid("2fedbbd7-46a5-487d-bc3a-51243f1280b3"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(896),
+                            Description = "Meat",
+                            Name = "Red Meat",
+                            Price = 96m,
+                            QuantityAvailable = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("140aa7e9-01df-4036-96e3-01d0784cd709"),
+                            CategoryId = new Guid("2411b221-ec3d-4170-9978-d958440bd35f"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(897),
+                            Description = "Banana",
+                            Name = "Banana",
+                            Price = 137m,
+                            QuantityAvailable = 75
+                        },
+                        new
+                        {
+                            Id = new Guid("c375b4cd-f41a-4f64-87a0-791c20d6de37"),
+                            CategoryId = new Guid("2411b221-ec3d-4170-9978-d958440bd35f"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(900),
+                            Description = "Fig",
+                            Name = "Fig",
+                            Price = 464m,
+                            QuantityAvailable = 100
+                        },
+                        new
+                        {
+                            Id = new Guid("73e248a6-0f66-4640-91a1-61881e1f9a50"),
+                            CategoryId = new Guid("2411b221-ec3d-4170-9978-d958440bd35f"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(902),
+                            Description = "Apple",
+                            Name = "Apple",
+                            Price = 161m,
+                            QuantityAvailable = 80
+                        },
+                        new
+                        {
+                            Id = new Guid("192a67be-09e7-4056-b18d-23ea78d54191"),
+                            CategoryId = new Guid("2411b221-ec3d-4170-9978-d958440bd35f"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(904),
+                            Description = "Grapes",
+                            Name = "Grapes",
+                            Price = 269m,
+                            QuantityAvailable = 100
+                        },
+                        new
+                        {
+                            Id = new Guid("e539d788-9cfd-419d-a6c0-7c9ecced74f8"),
+                            CategoryId = new Guid("2411b221-ec3d-4170-9978-d958440bd35f"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(906),
+                            Description = "Watermelon",
+                            Name = "Watermelon",
+                            Price = 396m,
+                            QuantityAvailable = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("00c11dca-8f36-4c70-85fd-0dbdd09d7f8d"),
+                            CategoryId = new Guid("8e978bdb-2528-48f2-bf61-d7e5c342d5a8"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(908),
+                            Description = "Raisins",
+                            Name = "Raisins",
+                            Price = 366m,
+                            QuantityAvailable = 100
+                        },
+                        new
+                        {
+                            Id = new Guid("a10c4411-9591-44a2-bb0c-27d700a116ed"),
+                            CategoryId = new Guid("52021e7d-7e0f-4e09-ae74-8e1891752f1a"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(910),
+                            Description = "Orange Juice",
+                            Name = "Orange Juice",
+                            Price = 456m,
+                            QuantityAvailable = 100
+                        },
+                        new
+                        {
+                            Id = new Guid("d5236461-b469-4725-a54c-4ce547a3b90f"),
+                            CategoryId = new Guid("2411b221-ec3d-4170-9978-d958440bd35f"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(912),
+                            Description = "Mixed Fruits",
+                            Name = "Mixed Fruits",
+                            Price = 229m,
+                            QuantityAvailable = 100
+                        },
+                        new
+                        {
+                            Id = new Guid("0e54932e-e776-4a7a-b1b9-d051238627f0"),
+                            CategoryId = new Guid("77bf0937-7055-47a6-950a-77b2328da3c6"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(913),
+                            Description = "Spinach",
+                            Name = "Spinach",
+                            Price = 180m,
+                            QuantityAvailable = 100
+                        },
+                        new
+                        {
+                            Id = new Guid("530f39c4-569e-400b-8565-2f4a339682e1"),
+                            CategoryId = new Guid("77bf0937-7055-47a6-950a-77b2328da3c6"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(915),
+                            Description = "Bell Pepper",
+                            Name = "Bell Pepper",
+                            Price = 136m,
+                            QuantityAvailable = 100
+                        },
+                        new
+                        {
+                            Id = new Guid("c5af10c3-c4ec-47e7-a6d4-4da0a8cd4df2"),
+                            CategoryId = new Guid("3acbce70-bf9e-4ed8-bf9f-bb1311a82899"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(917),
+                            Description = "Fried Chicken",
+                            Name = "Fried Chicken",
+                            Price = 228m,
+                            QuantityAvailable = 20
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.ProductImage", b =>
@@ -958,6 +1175,113 @@ namespace Persistence.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductImages", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("6a94cf8f-8a62-4666-8312-b0dcac7b6b46"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(942),
+                            ImageUrl = "/theme/img/product/discount/pd-3.jpg",
+                            ProductId = new Guid("6db7024e-aa6e-4cb9-89eb-cc877e0f7042")
+                        },
+                        new
+                        {
+                            Id = new Guid("be6535b2-d9c3-47de-9eea-a5a38bf14947"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(946),
+                            ImageUrl = "/theme/img/product/discount/pd-4.jpg",
+                            ProductId = new Guid("8a15110d-2f57-4d49-b983-8adff3e3574a")
+                        },
+                        new
+                        {
+                            Id = new Guid("32bf6d1b-423a-496b-855b-73d66580dd70"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(947),
+                            ImageUrl = "/theme/img/product/discount/pd-5.jpg",
+                            ProductId = new Guid("1fd43c98-1bfb-4a83-914c-9bad663eb0ef")
+                        },
+                        new
+                        {
+                            Id = new Guid("9ef744b6-139e-491f-86cb-bfd05ac8076e"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(949),
+                            ImageUrl = "/theme/img/product/product-1.jpg",
+                            ProductId = new Guid("f1f1639a-d3e0-4ec9-9d47-cde00d43e44f")
+                        },
+                        new
+                        {
+                            Id = new Guid("ea29efed-80ff-4319-9fea-2e01f3b914c2"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(951),
+                            ImageUrl = "/theme/img/product/product-2.jpg",
+                            ProductId = new Guid("140aa7e9-01df-4036-96e3-01d0784cd709")
+                        },
+                        new
+                        {
+                            Id = new Guid("f35949b7-d780-4f25-9b27-320469241496"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(953),
+                            ImageUrl = "/theme/img/product/product-3.jpg",
+                            ProductId = new Guid("c375b4cd-f41a-4f64-87a0-791c20d6de37")
+                        },
+                        new
+                        {
+                            Id = new Guid("902a956f-1114-43ed-a4fd-631679babcc8"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(955),
+                            ImageUrl = "/theme/img/product/product-8.jpg",
+                            ProductId = new Guid("73e248a6-0f66-4640-91a1-61881e1f9a50")
+                        },
+                        new
+                        {
+                            Id = new Guid("713da0e4-2249-4a78-9b3c-a206f171389e"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(956),
+                            ImageUrl = "/theme/img/product/product-4.jpg",
+                            ProductId = new Guid("192a67be-09e7-4056-b18d-23ea78d54191")
+                        },
+                        new
+                        {
+                            Id = new Guid("e482e356-7be9-4c43-972e-606b95102ff8"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(957),
+                            ImageUrl = "/theme/img/product/product-7.jpg",
+                            ProductId = new Guid("e539d788-9cfd-419d-a6c0-7c9ecced74f8")
+                        },
+                        new
+                        {
+                            Id = new Guid("fd9d6516-de9f-4144-8abb-42e3172597b1"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(961),
+                            ImageUrl = "/theme/img/product/product-9.jpg",
+                            ProductId = new Guid("00c11dca-8f36-4c70-85fd-0dbdd09d7f8d")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b030ee2-e806-4dc5-84e5-437e2670acb0"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(962),
+                            ImageUrl = "/theme/img/product/product-11.jpg",
+                            ProductId = new Guid("a10c4411-9591-44a2-bb0c-27d700a116ed")
+                        },
+                        new
+                        {
+                            Id = new Guid("ec47585b-667a-45f2-b652-6c37bcd6f77a"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(964),
+                            ImageUrl = "/theme/img/product/product-12.jpg",
+                            ProductId = new Guid("d5236461-b469-4725-a54c-4ce547a3b90f")
+                        },
+                        new
+                        {
+                            Id = new Guid("0950f706-9920-4f40-a435-3908e0b2ba89"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(965),
+                            ImageUrl = "/theme/img/latest-product/lp-1.jpg",
+                            ProductId = new Guid("0e54932e-e776-4a7a-b1b9-d051238627f0")
+                        },
+                        new
+                        {
+                            Id = new Guid("29f9a3c7-df9c-4616-b89e-335ca0e9f568"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(966),
+                            ImageUrl = "/theme/img/product/details/product-details-2.jpg",
+                            ProductId = new Guid("530f39c4-569e-400b-8565-2f4a339682e1")
+                        },
+                        new
+                        {
+                            Id = new Guid("df7442c9-d07b-4625-a9c0-f844d15bb28c"),
+                            CreatedDate = new DateTime(2024, 3, 5, 15, 22, 9, 836, DateTimeKind.Utc).AddTicks(968),
+                            ImageUrl = "/theme/img/product/product-10.jpg",
+                            ProductId = new Guid("c5af10c3-c4ec-47e7-a6d4-4da0a8cd4df2")
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.RefreshToken", b =>
@@ -1065,12 +1389,12 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("39f18155-fe18-47f0-889d-8cd9075c6f20"),
+                            Id = new Guid("0e31726f-1fd1-429d-b486-e618086bebe6"),
                             AuthenticatorType = 0,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@alikemaluysal.com",
-                            PasswordHash = new byte[] { 221, 181, 175, 122, 207, 121, 234, 17, 114, 132, 30, 61, 98, 157, 210, 245, 49, 76, 100, 38, 150, 80, 134, 136, 51, 31, 213, 137, 118, 201, 109, 201, 95, 128, 149, 29, 239, 42, 35, 184, 98, 194, 98, 27, 115, 189, 249, 238, 44, 121, 196, 157, 68, 237, 38, 202, 130, 222, 80, 185, 169, 41, 87, 197 },
-                            PasswordSalt = new byte[] { 108, 90, 117, 75, 86, 81, 21, 119, 202, 137, 107, 53, 60, 169, 6, 108, 85, 84, 243, 112, 54, 39, 239, 22, 49, 104, 89, 192, 226, 200, 79, 62, 228, 217, 18, 9, 14, 223, 155, 214, 29, 30, 104, 237, 155, 112, 71, 216, 47, 179, 239, 229, 217, 242, 67, 141, 72, 236, 59, 114, 168, 251, 200, 132, 190, 178, 81, 73, 52, 165, 218, 138, 167, 169, 210, 246, 205, 236, 182, 41, 57, 68, 170, 28, 64, 87, 186, 22, 121, 1, 229, 95, 100, 168, 221, 83, 79, 124, 219, 197, 97, 155, 65, 166, 82, 122, 119, 55, 140, 51, 250, 232, 131, 240, 203, 119, 138, 162, 117, 199, 24, 54, 198, 223, 228, 120, 142, 106 }
+                            PasswordHash = new byte[] { 140, 36, 124, 107, 147, 26, 126, 77, 253, 159, 173, 142, 196, 155, 186, 251, 237, 64, 3, 24, 188, 130, 110, 9, 44, 37, 21, 139, 64, 119, 94, 55, 47, 198, 32, 51, 10, 96, 4, 168, 108, 120, 167, 67, 185, 202, 184, 211, 93, 97, 89, 185, 202, 135, 27, 109, 100, 196, 52, 215, 96, 209, 233, 158 },
+                            PasswordSalt = new byte[] { 182, 127, 184, 207, 70, 119, 245, 33, 189, 195, 248, 182, 174, 143, 198, 5, 80, 209, 167, 148, 215, 248, 222, 4, 254, 216, 133, 6, 84, 88, 113, 79, 181, 250, 77, 194, 67, 172, 11, 40, 65, 184, 244, 227, 120, 209, 251, 247, 87, 82, 174, 70, 18, 246, 223, 209, 22, 211, 248, 165, 165, 220, 134, 120, 253, 63, 190, 135, 231, 170, 171, 227, 107, 19, 122, 48, 157, 137, 33, 183, 181, 23, 146, 45, 173, 103, 109, 38, 197, 183, 178, 125, 214, 119, 161, 168, 52, 87, 142, 118, 153, 201, 97, 187, 56, 142, 35, 242, 162, 129, 65, 70, 238, 175, 231, 142, 108, 220, 132, 156, 133, 246, 153, 25, 74, 129, 168, 69 }
                         });
                 });
 
@@ -1112,10 +1436,10 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f4021dfd-2348-425f-9540-50ecc18696c4"),
+                            Id = new Guid("3859ee0a-9acc-4d20-8299-93b6ad6ff0b0"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OperationClaimId = 1,
-                            UserId = new Guid("39f18155-fe18-47f0-889d-8cd9075c6f20")
+                            UserId = new Guid("0e31726f-1fd1-429d-b486-e618086bebe6")
                         });
                 });
 
