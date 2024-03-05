@@ -6,6 +6,7 @@ using Application.Features.Products.Queries.GetList;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Application.Features.Products.Queries.GetProductDetails;
 
 namespace WebAPI.Controllers;
 
@@ -49,6 +50,13 @@ public class ProductsController : BaseController
     {
         GetListProductQuery getListProductQuery = new() { PageRequest = pageRequest };
         GetListResponse<GetListProductListItemDto> response = await Mediator.Send(getListProductQuery);
+        return Ok(response);
+    }
+    
+    [HttpGet("GetProductDetails")]
+    public async Task<IActionResult> GetProductDetails([FromQuery] GetProductDetailsQuery getProductDetailsQuery)
+    {
+        GetListResponse<GetProductDetailsListItemDto> response = await Mediator.Send(getProductDetailsQuery);
         return Ok(response);
     }
 }
