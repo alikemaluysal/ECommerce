@@ -20,3 +20,9 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.pagination-active {
+    background: #7fad39 !important;
+    border-color: #7fad39 !important;
+    color: #ffffff !important;
+}
