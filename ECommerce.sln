@@ -85,6 +85,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Persistence.Dependency
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Persistence.WebApi", "src\corePackages\Core.Persistence.WebApi\Core.Persistence.WebApi.csproj", "{CB9E8EC5-E9A1-4BA3-B705-A928439614DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMVC.Client", "src\eCommerce\WebMVC.Client\WebMVC.Client.csproj", "{2C2D2FFE-077B-4B1F-B3EE-97B696B06E77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -219,6 +221,10 @@ Global
 		{CB9E8EC5-E9A1-4BA3-B705-A928439614DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB9E8EC5-E9A1-4BA3-B705-A928439614DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB9E8EC5-E9A1-4BA3-B705-A928439614DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C2D2FFE-077B-4B1F-B3EE-97B696B06E77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C2D2FFE-077B-4B1F-B3EE-97B696B06E77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C2D2FFE-077B-4B1F-B3EE-97B696B06E77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C2D2FFE-077B-4B1F-B3EE-97B696B06E77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -258,6 +264,7 @@ Global
 		{540754AD-7D5B-410C-AB1F-23102260D5F7} = {5E293F80-E805-4C69-8E06-55D1A13AB590}
 		{6BAC9E76-B6AD-4058-81CE-ED399C4ECA90} = {5E293F80-E805-4C69-8E06-55D1A13AB590}
 		{CB9E8EC5-E9A1-4BA3-B705-A928439614DA} = {5E293F80-E805-4C69-8E06-55D1A13AB590}
+		{2C2D2FFE-077B-4B1F-B3EE-97B696B06E77} = {F4CFDEC8-18F0-4A9C-A16B-3045B325FA69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9208CFCE-156A-49CD-9E43-32CE67AAB957}
