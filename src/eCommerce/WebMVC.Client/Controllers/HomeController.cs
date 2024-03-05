@@ -1,30 +1,58 @@
+using WebMVC.Client.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using WebMVC.Client.Models;
 
-namespace WebMVC.Client.Controllers;
-public class HomeController : Controller
+
+namespace WebMVC.Client.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public class HomeController : Controller
     {
-        _logger = logger;
-    }
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+        public IActionResult Index()
+        {
+            return View();
+        }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        [Route("/about-us")]
+        [HttpGet]
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        [Route("/contact")]
+        [HttpGet]
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+        [Route("/contact")]
+        [HttpPost]
+        public async Task<IActionResult> Contact([FromForm] NewContactFormMessageViewModel newContactMessage)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(newContactMessage);
+            }
+
+            return View();
+        }
+
+        [Route("/product/list")]
+        [HttpGet]
+        public async Task<IActionResult> Listing()
+        {
+
+            return View();
+
+        }
+
+        [Route("/product/{productId:int}/details")]
+        [HttpGet]
+        public async Task<IActionResult> ProductDetail([FromRoute] int productId)
+        {
+
+            return View();
+        }
     }
 }
