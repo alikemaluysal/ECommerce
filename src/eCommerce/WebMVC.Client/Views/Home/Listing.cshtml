@@ -171,7 +171,7 @@
                     <div class="col d-flex justify-content-center">
                         <div class="product__pagination ">
 
-                            @if (Model.Index >= 0)
+                            @if (Model.HasPrevious)
                             {
                                 <a asp-route-pageIndex="@(Model.Index - 1)"><i class="fa fa-long-arrow-left"></i></a>
 
@@ -182,8 +182,8 @@
                                 <a class=" @(i == Model.Index + 1 ? "pagination-active" : "")" asp-action="Listing" asp-route-pageIndex="@(i - 1)">@(i)</a>
                             }
 
-                            
-                            @if (Model.Index >= 0)
+
+                            @if (Model.HasNext)
                             {
                                 <a asp-route-pageIndex="@(Model.Index + 1)"><i class="fa fa-long-arrow-right"></i></a>
 
