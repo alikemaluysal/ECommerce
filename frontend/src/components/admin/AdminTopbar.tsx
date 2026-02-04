@@ -12,7 +12,7 @@ export default function AdminTopbar({ title }: AdminTopbarProps) {
 
   const handleLogout = async () => {
     await logout();
-    navigate('/admin/login');
+    navigate('/');
   };
 
   return (

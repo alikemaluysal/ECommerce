@@ -114,7 +114,6 @@ export default function OrdersList() {
                         ${order.totalAmount.toFixed(2)}
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-600">
-                        {order.date}
                         {new Date(order.createdDate).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4">

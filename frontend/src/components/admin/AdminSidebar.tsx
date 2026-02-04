@@ -1,8 +1,10 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Package, FolderOpen, ShoppingBag, LogOut } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 export default function AdminSidebar() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   
   const navItems = [
     { path: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
@@ -11,8 +13,9 @@ export default function AdminSidebar() {
     { path: '/admin/orders', label: 'Orders', icon: ShoppingBag },
   ];
 
-  const handleSignOut = () => {
-    navigate('/admin-login');
+  const handleSignOut = async () => {
+    await logout();
+    navigate('/');
   };
 
   return (

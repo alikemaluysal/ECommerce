@@ -8,7 +8,7 @@ import { ShoppingBag, Lock } from 'lucide-react';
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { login, register: registerUser } = useAuth();
+  const { login, register: registerUser, isAdmin } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,7 +24,12 @@ export default function Login() {
       if (isLogin) {
         const success = await login(email, password);
         if (success) {
-          navigate(from, { replace: true });
+          // Admin kullanıcıları admin paneline yönlendir
+          if (isAdmin()) {
+            navigate('/admin', { replace: true });
+          } else {
+            navigate(from, { replace: true });
+          }
         }
       } else {
         const success = await registerUser(email, password);

@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, User, Heart, LogOut, LogIn } from 'lucide-react';
+import { Search, ShoppingCart, User, Heart, LogOut, LogIn, Shield } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 
 export default function Header() {
   const navigate = useNavigate();
   const { getItemCount } = useCart();
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, isAdmin, user, logout } = useAuth();
   const itemCount = getItemCount();
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -55,6 +55,17 @@ export default function Header() {
           </div>
 
           <div className="flex items-center gap-4">
+            {isAuthenticated() && isAdmin() && (
+              <button 
+                onClick={() => navigate('/admin')}
+                className="flex items-center gap-2 px-3 py-2 bg-indigo-600 text-white hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg"
+                aria-label="Admin Panel"
+              >
+                <Shield className="size-4" />
+                <span className="hidden lg:inline text-sm font-semibold">Admin</span>
+              </button>
+            )}
+            
             <button 
               className="p-2 text-slate-600 hover:text-indigo-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg"
               aria-label="Wishlist"
