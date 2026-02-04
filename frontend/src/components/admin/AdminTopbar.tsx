@@ -1,4 +1,4 @@
-import { Bell, User, LogOut } from 'lucide-react';
+import { User, LogOut, Store } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ export default function AdminTopbar({ title }: AdminTopbarProps) {
 
   const handleLogout = async () => {
     await logout();
-    navigate('/admin/login');
+    navigate('/');
   };
 
   return (
@@ -22,10 +22,13 @@ export default function AdminTopbar({ title }: AdminTopbarProps) {
 
         <div className="flex items-center gap-4">
           <button 
-            className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            aria-label="Notifications"
+            onClick={() => navigate('/')}
+            className="flex items-center gap-2 px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            aria-label="Storefront"
+            title="Go to Storefront"
           >
-            <Bell className="size-5" />
+            <Store className="size-5" />
+            <span className="hidden md:inline text-sm font-semibold">Storefront</span>
           </button>
 
           <div className="flex items-center gap-3 pl-4 border-l border-slate-200">

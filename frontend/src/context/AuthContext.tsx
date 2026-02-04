@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import type { User } from '../types';
 import { authApi, tokenManager } from '../api';
 import { handleApiError, showSuccess } from '../utils/errorHandler';
+import { hasRole } from '../utils/jwt';
 
 interface AuthContextType {
   user: User | null;
@@ -27,12 +28,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (token && !tokenManager.isTokenExpired()) {
         try {
           const userMe = await authApi.getMe();
+          const isAdmin = hasRole(token, 'Admin');
           setUser({
             id: userMe.id,
             email: userMe.email,
             firstName: userMe.firstName,
             lastName: userMe.lastName,
-            role: userMe.email.includes('admin') ? 'Admin' : 'User',
+            role: isAdmin ? 'Admin' : 'User',
             status: userMe.status,
           });
         } catch (error) {
@@ -49,14 +51,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       await authApi.login({ email, password });
-      
+      const token = tokenManager.getAccessToken();
       const userMe = await authApi.getMe();
+      const isAdmin = hasRole(token, 'Admin');
+      
       setUser({
         id: userMe.id,
         email: userMe.email,
         firstName: userMe.firstName,
         lastName: userMe.lastName,
-        role: userMe.email.includes('admin') ? 'Admin' : 'User',
+        role: isAdmin ? 'Admin' : 'User',
         status: userMe.status,
       });
       

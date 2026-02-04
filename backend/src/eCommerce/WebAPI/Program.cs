@@ -86,7 +86,7 @@ builder.Services.AddSwaggerGen(opt =>
 
 WebApplication app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 {
     app.UseSwagger();
     app.UseSwaggerUI(opt =>
@@ -99,7 +99,7 @@ app.ConfigureCustomExceptionMiddleware();
 
 app.UseDbMigrationApplier();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 {
     using var scope = app.Services.CreateScope();
     var seeder = scope.ServiceProvider.GetRequiredService<DbSeeder>();

@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application;
+using Domain.Entities;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -44,8 +45,8 @@ public class DbSeeder
 
         var operationClaims = new List<OperationClaim>
         {
-            new() { Name = "Admin", CreatedDate = DateTime.UtcNow },
-            new() { Name = "User", CreatedDate = DateTime.UtcNow }
+            new() { Name = ApplicationOperationClaims.Admin, CreatedDate = DateTime.UtcNow },
+            new() { Name = ApplicationOperationClaims.AppUser, CreatedDate = DateTime.UtcNow }
         };
 
         await _context.OperationClaims.AddRangeAsync(operationClaims);
@@ -73,7 +74,7 @@ public class DbSeeder
         await _context.Users.AddAsync(adminUser);
         await _context.SaveChangesAsync();
 
-        var adminClaim = await _context.OperationClaims.FirstOrDefaultAsync(c => c.Name == "Admin");
+        var adminClaim = await _context.OperationClaims.FirstOrDefaultAsync(c => c.Name == ApplicationOperationClaims.Admin);
         if (adminClaim != null)
         {
             var userOperationClaim = new UserOperationClaim

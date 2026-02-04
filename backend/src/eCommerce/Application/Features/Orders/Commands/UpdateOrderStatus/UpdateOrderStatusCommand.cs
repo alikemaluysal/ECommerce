@@ -17,7 +17,7 @@ public class UpdateOrderStatusCommand : IRequest<UpdatedOrderStatusResponse>, IS
     public UpdateOrderStatusRequest Dto { get; set; }
     public bool IsAdminRequest { get; set; } = false;
 
-    public string[] Roles => IsAdminRequest ? [Admin] : [];
+    public string[] Roles => IsAdminRequest ? [Admin] : [AppUser];
 
     public UpdateOrderStatusCommand(Guid orderId, UpdateOrderStatusRequest dto)
     {

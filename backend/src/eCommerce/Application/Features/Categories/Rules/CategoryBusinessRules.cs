@@ -4,17 +4,20 @@ using NArchitecture.Core.Application.Rules;
 using NArchitecture.Core.CrossCuttingConcerns.Exception.Types;
 using NArchitecture.Core.Localization.Abstraction;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Categories.Rules;
 
 public class CategoryBusinessRules : BaseBusinessRules
 {
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IProductRepository _productRepository;
     private readonly ILocalizationService _localizationService;
 
-    public CategoryBusinessRules(ICategoryRepository categoryRepository, ILocalizationService localizationService)
+    public CategoryBusinessRules(ICategoryRepository categoryRepository, IProductRepository productRepository, ILocalizationService localizationService)
     {
         _categoryRepository = categoryRepository;
+        _productRepository = productRepository;
         _localizationService = localizationService;
     }
 
@@ -60,5 +63,15 @@ public class CategoryBusinessRules : BaseBusinessRules
         );
         if (category != null)
             await throwBusinessException(CategoriesBusinessMessages.CategoryNameAlreadyExists);
+    }
+
+    public async Task CategoryShouldNotHaveProductsWhenDeleting(Guid categoryId, CancellationToken cancellationToken)
+    {
+        bool hasProducts = await _productRepository
+            .Query()
+            .AnyAsync(p => p.CategoryId == categoryId, cancellationToken);
+
+        if (hasProducts)
+            await throwBusinessException(CategoriesBusinessMessages.CategoryHasProducts);
     }
 }

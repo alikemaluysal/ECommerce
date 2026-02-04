@@ -6,6 +6,8 @@ import type {
   ProductSearchRequest,
   ProductSearchItemResponse,
   ProductSpecification,
+  CreateProductRequest,
+  CreateProductResponse,
 } from '../../types/api';
 
 export const productsApi = {
@@ -80,6 +82,11 @@ export const productsApi = {
     const response = await apiClient.get<ProductSpecification[]>(
       `/Products/${productId}/specifications`
     );
+    return response.data;
+  },
+
+  async createProduct(data: CreateProductRequest): Promise<CreateProductResponse> {
+    const response = await apiClient.post<CreateProductResponse>('/Products', data);
     return response.data;
   },
 

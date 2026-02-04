@@ -9,14 +9,13 @@ import { ordersApi } from '../../api';
 import { handleApiError } from '../../utils/errorHandler';
 import type { KPIData } from '../../types';
 import type { OrderListItemResponse, OrderStatus } from '../../types/api';
-
 // Helper function to convert OrderStatus enum to label
-const getStatusLabel = (status: OrderStatus): 'Received' | 'Preparing' | 'Shipped' | 'Completed' | 'Cancelled' => {
-  const statusMap: Record<OrderStatus, 'Received' | 'Preparing' | 'Shipped' | 'Completed' | 'Cancelled'> = {
+const getStatusLabel = (status: OrderStatus): 'Received' | 'Preparing' | 'Shipped' | 'Delivered' | 'Cancelled' => {
+  const statusMap: Record<OrderStatus, 'Received' | 'Preparing' | 'Shipped' | 'Delivered' | 'Cancelled'> = {
     0: 'Received',
     1: 'Preparing',
     2: 'Shipped',
-    3: 'Completed',
+    3: 'Delivered',
     4: 'Cancelled',
   };
   return statusMap[status] || 'Received';
@@ -35,10 +34,10 @@ export default function AdminDashboard() {
   const loadDashboardData = async () => {
     setLoading(true);
     try {
-      const ordersResponse = await ordersApi.getOrders(0, 5);
+      const ordersResponse = await ordersApi.getAllOrders(0, 5);
       setRecentOrders(ordersResponse.items);
       
-      // KPI data için mock data kullanıyoruz (backend'de endpoint yok)
+      // KPI data için mock data kullanıyoruz (todo: backend endpoints)
       setKPIData({
         totalRevenue: 0,
         totalOrders: ordersResponse.count,

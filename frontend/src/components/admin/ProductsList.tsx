@@ -5,10 +5,12 @@ import AdminTopbar from './AdminTopbar';
 import { Search, Plus, Edit, Trash2 } from 'lucide-react';
 import { productsApi } from '../../api';
 import { handleApiError, showSuccess } from '../../utils/errorHandler';
+import { useConfirm } from '../../context/ConfirmDialogContext';
 import type { ProductListItemResponse } from '../../types/api';
 
 export default function ProductsList() {
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const [products, setProducts] = useState<ProductListItemResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -39,7 +41,15 @@ export default function ProductsList() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this product?')) {
+    const confirmed = await confirm({
+      title: 'Delete Product',
+      message: 'Are you sure you want to delete this product? This action cannot be undone.',
+      type: 'danger',
+      confirmText: 'Delete',
+      cancelText: 'Cancel'
+    });
+
+    if (confirmed) {
       try {
         await productsApi.deleteProduct(id);
         showSuccess('Product deleted successfully');

@@ -22,7 +22,7 @@ export default function OrdersList() {
   const loadOrders = async () => {
     setLoading(true);
     try {
-      const response = await ordersApi.getOrders(currentPage, 10);
+      const response = await ordersApi.getAllOrders(currentPage, 10);
       setOrders(response.items);
       setTotalPages(response.pages);
     } catch (error) {
@@ -32,12 +32,12 @@ export default function OrdersList() {
     }
   };
 
-  const getStatusLabel = (status: OrderStatus): 'Received' | 'Preparing' | 'Shipped' | 'Completed' | 'Cancelled' => {
-    const statusMap: Record<OrderStatus, 'Received' | 'Preparing' | 'Shipped' | 'Completed' | 'Cancelled'> = {
+  const getStatusLabel = (status: OrderStatus): 'Received' | 'Preparing' | 'Shipped' | 'Delivered' | 'Cancelled' => {
+    const statusMap: Record<OrderStatus, 'Received' | 'Preparing' | 'Shipped' | 'Delivered' | 'Cancelled'> = {
       0: 'Received',
       1: 'Preparing',
       2: 'Shipped',
-      3: 'Completed',
+      3: 'Delivered',
       4: 'Cancelled',
     };
     return statusMap[status] || 'Received';
@@ -114,7 +114,6 @@ export default function OrdersList() {
                         ${order.totalAmount.toFixed(2)}
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-600">
-                        {order.date}
                         {new Date(order.createdDate).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4">
