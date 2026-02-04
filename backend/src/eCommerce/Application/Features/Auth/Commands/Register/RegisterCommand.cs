@@ -3,6 +3,7 @@ using Application.Services.AuthService;
 using Application.Services.Repositories;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using NArchitecture.Core.Application.Dtos;
 using NArchitecture.Core.Security.Hashing;
 using NArchitecture.Core.Security.JWT;
@@ -31,16 +32,22 @@ public class RegisterCommand : IRequest<RegisteredResponse>
         private readonly IUserRepository _userRepository;
         private readonly IAuthService _authService;
         private readonly AuthBusinessRules _authBusinessRules;
+        private readonly IOperationClaimRepository _operationClaimRepository;
+        private readonly IUserOperationClaimRepository _userOperationClaimRepository;
 
         public RegisterCommandHandler(
             IUserRepository userRepository,
             IAuthService authService,
-            AuthBusinessRules authBusinessRules
+            AuthBusinessRules authBusinessRules,
+            IOperationClaimRepository operationClaimRepository,
+            IUserOperationClaimRepository userOperationClaimRepository
         )
         {
             _userRepository = userRepository;
             _authService = authService;
             _authBusinessRules = authBusinessRules;
+            _operationClaimRepository = operationClaimRepository;
+            _userOperationClaimRepository = userOperationClaimRepository;
         }
 
         public async Task<RegisteredResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
@@ -60,6 +67,20 @@ public class RegisterCommand : IRequest<RegisteredResponse>
                     PasswordSalt = passwordSalt,
                 };
             User createdUser = await _userRepository.AddAsync(newUser);
+
+            OperationClaim? appUserClaim = await _operationClaimRepository
+                .Query()
+                .FirstOrDefaultAsync(c => c.Name == ApplicationOperationClaims.AppUser, cancellationToken);
+
+            if (appUserClaim is not null)
+            {
+                UserOperationClaim userOperationClaim = new()
+                {
+                    UserId = createdUser.Id,
+                    OperationClaimId = appUserClaim.Id
+                };
+                await _userOperationClaimRepository.AddAsync(userOperationClaim);
+            }
 
             AccessToken createdAccessToken = await _authService.CreateAccessToken(createdUser);
 
