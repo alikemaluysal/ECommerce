@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
+import { ConfirmDialogProvider } from './context/ConfirmDialogContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './components/storefront/Home';
 import ProductListing from './components/storefront/ProductListing';
@@ -23,8 +24,9 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>
-          <Toaster position="bottom-right" richColors />
-          <Routes>
+          <ConfirmDialogProvider>
+            <Toaster position="bottom-right" richColors />
+            <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/products" element={<ProductListing />} />
@@ -45,6 +47,7 @@ export default function App() {
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          </ConfirmDialogProvider>
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>

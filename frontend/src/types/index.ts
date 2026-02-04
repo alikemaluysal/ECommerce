@@ -64,7 +64,7 @@ export interface OrderItem {
   total: number;
 }
 
-export type OrderStatus = 'Received' | 'Preparing' | 'Shipped' | 'Completed' | 'Cancelled';
+export type OrderStatus = 'Received' | 'Preparing' | 'Shipped' | 'Delivered' | 'Cancelled';
 
 export interface Address {
   fullName: string;

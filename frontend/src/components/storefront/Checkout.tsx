@@ -30,7 +30,7 @@ export default function Checkout() {
     setLoading(true);
 
     try {
-      const response = await ordersApi.createOrder(formData);
+      const response = await ordersApi.checkout(formData);
       
       await clearCart();
       showSuccess('Siparişiniz başarıyla oluşturuldu!');

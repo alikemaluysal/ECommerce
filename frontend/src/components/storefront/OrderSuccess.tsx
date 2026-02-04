@@ -1,12 +1,64 @@
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import { CheckCircle2 } from 'lucide-react';
+import { ordersApi } from '../../api';
+import { handleApiError } from '../../utils/errorHandler';
+import type { OrderDetailResponse } from '../../types/api';
 
 export default function OrderSuccess() {
   const { orderNumber } = useParams<{ orderNumber: string }>();
   const navigate = useNavigate();
-  const displayOrderNumber = orderNumber || 'ORD-XXXXX';
+  const [order, setOrder] = useState<OrderDetailResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (orderNumber) {
+      loadOrder();
+    }
+  }, [orderNumber]);
+
+  const loadOrder = async () => {
+    if (!orderNumber) return;
+    setLoading(true);
+    try {
+      const data = await ordersApi.getOrderById(orderNumber);
+      setOrder(data);
+    } catch (error) {
+      handleApiError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div>
+        <Header />
+        <main className="bg-white">
+          <div className="max-w-2xl mx-auto px-4 py-16">
+            <div className="text-center text-slate-600">Loading...</div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!order) {
+    return (
+      <div>
+        <Header />
+        <main className="bg-white">
+          <div className="max-w-2xl mx-auto px-4 py-16">
+            <div className="text-center text-slate-600">Order not found</div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -27,12 +79,12 @@ export default function OrderSuccess() {
             <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 mb-6">
               <div className="text-sm text-slate-600 mb-2">Order Number</div>
               <div className="text-slate-900 font-mono font-semibold">
-                #{displayOrderNumber}
+                #{order.id.slice(0, 8).toUpperCase()}
               </div>
             </div>
 
             <div className="space-y-3 text-sm text-slate-600 mb-8">
-              <p>A confirmation email has been sent to john.doe@example.com</p>
+              <p>A confirmation email has been sent to {order.customerEmail}</p>
               <p>You can track your order status using the order number above.</p>
             </div>
 

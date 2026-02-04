@@ -9,7 +9,7 @@ export default function StatusBadge({ status }: StatusBadgeProps) {
     Received: 'bg-blue-100 text-blue-700',
     Preparing: 'bg-amber-100 text-amber-700',
     Shipped: 'bg-indigo-100 text-indigo-700',
-    Completed: 'bg-emerald-100 text-emerald-700',
+    Delivered: 'bg-emerald-100 text-emerald-700',
     Cancelled: 'bg-slate-100 text-slate-700',
   };
 

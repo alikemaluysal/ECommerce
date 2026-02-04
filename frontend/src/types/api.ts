@@ -201,7 +201,7 @@ export const OrderStatus = {
   Pending: 0,
   Processing: 1,
   Shipped: 2,
-  Completed: 3,
+  Delivered: 3,
   Cancelled: 4,
 } as const;
 
@@ -241,6 +241,34 @@ export interface OrderItemResponse {
   productImageUrl: string;
   quantity: number;
   price: number;
+}
+
+export interface UpdateOrderStatusRequest {
+  status: OrderStatus;
+}
+
+export interface UpdateOrderStatusResponse {
+  id: string;
+  status: OrderStatus;
+  updatedDate: string;
+}
+
+export interface CreateProductRequest {
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  categoryId: string;
+}
+
+export interface CreateProductResponse {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  categoryId: string;
+  primaryImageUrl: string | null;
 }
 
 export interface UpdateProductRequest {
