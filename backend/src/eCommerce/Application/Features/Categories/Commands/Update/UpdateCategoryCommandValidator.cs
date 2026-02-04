@@ -1,0 +1,13 @@
+﻿using FluentValidation;
+
+namespace Application.Features.Categories.Commands.Update;
+
+public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCommand>
+{
+    public UpdateCategoryCommandValidator()
+    {
+        RuleFor(c => c.Id).NotEmpty();
+        RuleFor(c => c.Dto.Name).NotEmpty();
+        RuleFor(c => c.Dto.Description).NotEmpty();
+    }
+}

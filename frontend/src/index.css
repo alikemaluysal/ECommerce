@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+:root {
+  --font-size: 16px;
+}
+
+html {
+  font-size: var(--font-size);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
