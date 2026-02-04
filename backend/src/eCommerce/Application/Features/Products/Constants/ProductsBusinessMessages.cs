@@ -2,7 +2,7 @@
 
 public static class ProductsBusinessMessages
 {
-    public const string SectionName = "Product";
+    public const string SectionName = "Products";
 
     public const string ProductNotExists = "ProductNotExists";
     public const string ProductImageNotExists = "ProductImageNotExists";

@@ -1,2 +1,3 @@
 ﻿CategoryNotExists: Category don't exists.
 CategoryNameAlreadyExists: Category name already exists.
+CategoryHasProducts: Category cannot be deleted because it has associated products.

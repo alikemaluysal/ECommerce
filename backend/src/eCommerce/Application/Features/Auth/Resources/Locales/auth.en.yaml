@@ -2,7 +2,7 @@
 OtpAuthenticatorDontExists: "OTP authenticator don't exists."
 AlreadyVerifiedOtpAuthenticatorIsExists: "Already verified OTP authenticator is exists."
 EmailActivationKeyDontExists: "Email Activation Key don't exists."
-UserDontExists: "User don't exists."
+UserDontExists: "User doesn’t exist."
 UserHaveAlreadyAAuthenticator: "User have already a authenticator."
 RefreshDontExists: "Refresh don't exists."
 InvalidRefreshToken: "Invalid refresh token."

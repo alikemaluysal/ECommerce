@@ -38,6 +38,7 @@ public class DeleteCategoryCommand : IRequest<DeletedCategoryResponse>, ISecured
         {
             Category? category = await _categoryRepository.GetAsync(predicate: c => c.Id == request.Id, cancellationToken: cancellationToken);
             await _categoryBusinessRules.CategoryShouldExistWhenSelected(category);
+            await _categoryBusinessRules.CategoryShouldNotHaveProductsWhenDeleting(request.Id, cancellationToken);
 
             await _categoryRepository.DeleteAsync(category!);
 

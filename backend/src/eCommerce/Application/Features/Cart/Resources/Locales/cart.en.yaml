@@ -1,0 +1,5 @@
+﻿CartItemNotExists: Cart item doesn't exist.
+ProductNotExists: Product doesn't exist.
+InsufficientStock: Insufficient stock available.
+InvalidQuantity: Invalid quantity specified.
+CartItemAlreadyExists: Cart item already exists.
