@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, User, Heart, LogOut, LogIn, Shield } from 'lucide-react';
+import { Search, ShoppingCart, User, LogOut, LogIn, Shield } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 
@@ -66,33 +66,38 @@ export default function Header() {
               </button>
             )}
             
-            <button 
-              className="p-2 text-slate-600 hover:text-indigo-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg"
-              aria-label="Wishlist"
-            >
-              <Heart className="size-5" />
-            </button>
-            
-            <button 
-              onClick={handleAuthClick}
-              className="flex items-center gap-2 px-3 py-2 text-slate-600 hover:text-indigo-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg"
-              aria-label={isAuthenticated() ? 'Sign out' : 'Sign in'}
-            >
-              {isAuthenticated() ? (
-                <>
-                  <User className="size-5" />
-                  <span className="hidden lg:inline text-sm font-semibold">
-                    {user?.email?.split('@')[0] || 'Account'}
-                  </span>
-                  <LogOut className="size-4" />
-                </>
-              ) : (
-                <>
-                  <LogIn className="size-5" />
-                  <span className="hidden lg:inline text-sm font-semibold">Sign In</span>
-                </>
-              )}
-            </button>
+            {isAuthenticated() ? (
+              <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
+                <div className="text-right hidden sm:block">
+                  <div className="text-sm font-semibold text-slate-900">
+                    {user?.firstName || user?.lastName 
+                      ? `${user.firstName} ${user.lastName}`.trim() 
+                      : user?.email?.split('@')[0] || 'User'}
+                  </div>
+                  <div className="text-xs text-slate-500">{user?.email || ''}</div>
+                </div>
+                <div className="bg-slate-100 size-10 rounded-full flex items-center justify-center">
+                  <User className="size-5 text-slate-600" />
+                </div>
+                <button
+                  onClick={handleAuthClick}
+                  className="p-2 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
+                  aria-label="Logout"
+                  title="Logout"
+                >
+                  <LogOut className="size-5" />
+                </button>
+              </div>
+            ) : (
+              <button 
+                onClick={handleAuthClick}
+                className="flex items-center gap-2 px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                aria-label="Sign in"
+              >
+                <LogIn className="size-5" />
+                <span className="hidden lg:inline text-sm font-semibold">Sign In</span>
+              </button>
+            )}
             
             <button 
               onClick={() => navigate('/cart')}
