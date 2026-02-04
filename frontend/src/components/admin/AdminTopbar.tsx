@@ -1,4 +1,4 @@
-import { Bell, User, LogOut } from 'lucide-react';
+import { Bell, User, LogOut, Store } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,6 +21,16 @@ export default function AdminTopbar({ title }: AdminTopbarProps) {
         <h1 className="font-semibold text-slate-900">{title}</h1>
 
         <div className="flex items-center gap-4">
+          <button 
+            onClick={() => navigate('/')}
+            className="flex items-center gap-2 px-3 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            aria-label="Storefront"
+            title="Go to Storefront"
+          >
+            <Store className="size-5" />
+            <span className="hidden md:inline text-sm font-semibold">Storefront</span>
+          </button>
+
           <button 
             className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
             aria-label="Notifications"
