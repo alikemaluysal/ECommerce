@@ -23,7 +23,7 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>
-          <Toaster position="top-right" richColors />
+          <Toaster position="bottom-right" richColors />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
