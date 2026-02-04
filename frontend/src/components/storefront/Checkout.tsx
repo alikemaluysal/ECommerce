@@ -2,40 +2,21 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import { CreditCard } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { ordersApi } from '../../api';
 import { handleApiError, showSuccess } from '../../utils/errorHandler';
-import type { CheckoutFormData } from '../../types';
 
 export default function Checkout() {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const { items, getSubtotal, getShipping, getTax, getTotal, clearCart } = useCart();
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<CheckoutFormData>({
-    email: '',
-    shippingAddress: {
-      fullName: '',
-      phone: '',
-      street: '',
-      city: '',
-      state: '',
-      zipCode: '',
-      country: 'USA',
-    },
-    billingAddress: {
-      fullName: '',
-      phone: '',
-      street: '',
-      city: '',
-      state: '',
-      zipCode: '',
-      country: 'USA',
-    },
-    paymentMethod: 'credit_card',
-    sameAsShipping: true,
+  const [formData, setFormData] = useState({
+    shippingAddress: '',
+    shippingCity: '',
+    shippingCountry: '',
+    shippingPostalCode: '',
   });
 
   useEffect(() => {
@@ -49,12 +30,7 @@ export default function Checkout() {
     setLoading(true);
 
     try {
-      const response = await ordersApi.createOrder({
-        shippingAddress: formData.shippingAddress.street,
-        shippingCity: formData.shippingAddress.city,
-        shippingCountry: formData.shippingAddress.country,
-        shippingPostalCode: formData.shippingAddress.zipCode,
-      });
+      const response = await ordersApi.createOrder(formData);
       
       await clearCart();
       showSuccess('Siparişiniz başarıyla oluşturuldu!');
@@ -64,16 +40,6 @@ export default function Checkout() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const updateShippingAddress = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      shippingAddress: {
-        ...prev.shippingAddress,
-        [field]: value,
-      },
-    }));
   };
 
   if (items.length === 0) {
@@ -106,148 +72,67 @@ export default function Checkout() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-6">
                 <div className="bg-white border border-slate-200 rounded-xl p-6">
-                  <h2 className="font-semibold text-slate-900 mb-4">Contact Information</h2>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-2">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
-                  </div>
-                </div>
-
-                <div className="bg-white border border-slate-200 rounded-xl p-6">
-                  <h2 className="font-semibold text-slate-900 mb-4">Shipping Address</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="md:col-span-2">
-                      <label htmlFor="fullName" className="block text-sm font-semibold text-slate-700 mb-2">
-                        Full Name
+                  <h2 className="font-semibold text-slate-900 mb-4">Shipping Information</h2>
+                  <div className="space-y-4">
+                    <div>
+                      <label htmlFor="shippingAddress" className="block text-sm font-semibold text-slate-700 mb-2">
+                        Address
                       </label>
                       <input
                         type="text"
-                        id="fullName"
+                        id="shippingAddress"
                         required
-                        value={formData.shippingAddress.fullName}
-                        onChange={(e) => updateShippingAddress('fullName', e.target.value)}
+                        value={formData.shippingAddress}
+                        onChange={(e) => setFormData({ ...formData, shippingAddress: e.target.value })}
                         className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                      />
-                    </div>
-
-                    <div className="md:col-span-2">
-                      <label htmlFor="phone" className="block text-sm font-semibold text-slate-700 mb-2">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        required
-                        value={formData.shippingAddress.phone}
-                        onChange={(e) => updateShippingAddress('phone', e.target.value)}
-                        className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                      />
-                    </div>
-
-                    <div className="md:col-span-2">
-                      <label htmlFor="street" className="block text-sm font-semibold text-slate-700 mb-2">
-                        Street Address
-                      </label>
-                      <input
-                        type="text"
-                        id="street"
-                        required
-                        value={formData.shippingAddress.street}
-                        onChange={(e) => updateShippingAddress('street', e.target.value)}
-                        className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="123 Main St"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="city" className="block text-sm font-semibold text-slate-700 mb-2">
+                      <label htmlFor="shippingCity" className="block text-sm font-semibold text-slate-700 mb-2">
                         City
                       </label>
                       <input
                         type="text"
-                        id="city"
+                        id="shippingCity"
                         required
-                        value={formData.shippingAddress.city}
-                        onChange={(e) => updateShippingAddress('city', e.target.value)}
+                        value={formData.shippingCity}
+                        onChange={(e) => setFormData({ ...formData, shippingCity: e.target.value })}
                         className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="New York"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="state" className="block text-sm font-semibold text-slate-700 mb-2">
-                        State
+                      <label htmlFor="shippingCountry" className="block text-sm font-semibold text-slate-700 mb-2">
+                        Country
                       </label>
                       <input
                         type="text"
-                        id="state"
+                        id="shippingCountry"
                         required
-                        value={formData.shippingAddress.state}
-                        onChange={(e) => updateShippingAddress('state', e.target.value)}
+                        value={formData.shippingCountry}
+                        onChange={(e) => setFormData({ ...formData, shippingCountry: e.target.value })}
                         className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="USA"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="zipCode" className="block text-sm font-semibold text-slate-700 mb-2">
-                        Zip Code
+                      <label htmlFor="shippingPostalCode" className="block text-sm font-semibold text-slate-700 mb-2">
+                        Postal Code
                       </label>
                       <input
                         type="text"
-                        id="zipCode"
+                        id="shippingPostalCode"
                         required
-                        value={formData.shippingAddress.zipCode}
-                        onChange={(e) => updateShippingAddress('zipCode', e.target.value)}
+                        value={formData.shippingPostalCode}
+                        onChange={(e) => setFormData({ ...formData, shippingPostalCode: e.target.value })}
                         className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="10001"
                       />
                     </div>
-                  </div>
-                </div>
-
-                <div className="bg-white border border-slate-200 rounded-xl p-6">
-                  <h2 className="font-semibold text-slate-900 mb-4">Payment Method</h2>
-                  <div className="space-y-3">
-                    <label className="flex items-center gap-3 p-4 border-2 border-indigo-600 rounded-lg cursor-pointer">
-                      <input
-                        type="radio"
-                        name="payment"
-                        value="credit_card"
-                        checked={formData.paymentMethod === 'credit_card'}
-                        onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as any })}
-                        className="size-4"
-                      />
-                      <CreditCard className="size-5 text-slate-600" />
-                      <span className="font-semibold text-slate-900">Credit Card</span>
-                    </label>
-
-                    <label className="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-lg cursor-pointer">
-                      <input
-                        type="radio"
-                        name="payment"
-                        value="paypal"
-                        onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as any })}
-                        className="size-4"
-                      />
-                      <span className="font-semibold text-slate-900">PayPal</span>
-                    </label>
-
-                    <label className="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-lg cursor-pointer">
-                      <input
-                        type="radio"
-                        name="payment"
-                        value="cash_on_delivery"
-                        onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as any })}
-                        className="size-4"
-                      />
-                      <span className="font-semibold text-slate-900">Cash on Delivery</span>
-                    </label>
                   </div>
                 </div>
               </div>
