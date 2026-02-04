@@ -134,6 +134,10 @@ export interface AddToCartRequest {
   quantity: number;
 }
 
+export interface UpdateCartItemRequest {
+  quantity: number;
+}
+
 export interface CartItemResponse {
   id: string;
   productId: string;
