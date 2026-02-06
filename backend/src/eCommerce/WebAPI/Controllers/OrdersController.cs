@@ -56,13 +56,8 @@ public class OrdersController : BaseController
         GetByIdOrderResponse response = await Mediator.Send(query);
         return Ok(response);
     }
-}
 
-[Route("api/admin/orders")]
-[ApiController]
-public class AdminOrdersController : BaseController
-{
-    [HttpGet]
+    [HttpGet("admin")]
     public async Task<ActionResult<GetListResponse<GetAllOrdersListItemDto>>> GetAllOrders([FromQuery] PageRequest pageRequest)
     {
         GetAllOrdersQuery query = new() { PageRequest = pageRequest };
@@ -70,8 +65,8 @@ public class AdminOrdersController : BaseController
         return Ok(response);
     }
 
-    [HttpPut("{id}/status")]
-    public async Task<ActionResult<UpdatedOrderStatusResponse>> UpdateOrderStatus(
+    [HttpPut("{id}/admin/status")]
+    public async Task<ActionResult<UpdatedOrderStatusResponse>> AdminUpdateOrderStatus(
         [FromRoute] Guid id,
         [FromBody] UpdateOrderStatusRequest request)
     {

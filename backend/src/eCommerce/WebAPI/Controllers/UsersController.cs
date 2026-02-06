@@ -43,7 +43,7 @@ public class UsersController : BaseController
         return Ok(result);
     }
 
-    [HttpPut("FromAuth")]
+    [HttpPut("profile")]
     public async Task<IActionResult> UpdateFromAuth([FromBody] UpdateUserFromAuthCommand updateUserFromAuthCommand)
     {
         updateUserFromAuthCommand.Id = getUserIdFromRequest();
