@@ -1,14 +1,19 @@
 export interface Product {
   id: string;
   name: string;
+  slug: string;
   description: string;
   price: number;
   stock: number;
   categoryId: string;
   categoryName: string;
   primaryImageUrl: string;
+  image: string;
   images?: ProductImage[];
   specifications?: ProductSpecification[];
+  rating: number;
+  reviewCount: number;
+  isNew: boolean;
 }
 
 export interface ProductImage {
@@ -25,7 +30,10 @@ export interface ProductSpecification {
 }
 
 export interface Category {
+  id: string;
   name: string;
+  slug: string;
+  description: string;
   productCount: number;
 }
 

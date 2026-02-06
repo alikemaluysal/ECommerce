@@ -86,7 +86,7 @@ builder.Services.AddSwaggerGen(opt =>
 
 WebApplication app = builder.Build();
 
-if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local") || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI(opt =>

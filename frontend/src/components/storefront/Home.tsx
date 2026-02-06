@@ -7,7 +7,16 @@ import { Package, RotateCcw, Headphones } from 'lucide-react';
 import { productsApi, categoriesApi } from '../../api';
 import { handleApiError } from '../../utils/errorHandler';
 import type { Product } from '../../types';
-import type { TopCategoryResponse } from '../../types/api';
+import type { TopCategoryResponse, ProductListItemResponse } from '../../types/api';
+
+const mapProductListItemToProduct = (item: ProductListItemResponse): Product => ({
+  ...item,
+  slug: item.name.toLowerCase().replace(/\s+/g, '-'),
+  image: item.primaryImageUrl,
+  rating: 0,
+  reviewCount: 0,
+  isNew: false,
+});
 
 export default function Home() {
   const navigate = useNavigate();
@@ -27,7 +36,7 @@ export default function Home() {
         productsApi.getProducts({ page: 0, pageSize: 8 }),
       ]);
       setCategories(catsResponse);
-      setFeaturedProducts(productsResponse.items);
+      setFeaturedProducts(productsResponse.items.map(mapProductListItemToProduct));
     } catch (error) {
       handleApiError(error, 'Anasayfa verileri yüklenirken hata oluştu');
     } finally {

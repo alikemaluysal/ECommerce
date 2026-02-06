@@ -15,7 +15,7 @@ class OrderService {
     });
   }
 
-  async getOrderById(id: number): Promise<Order | undefined> {
+  async getOrderById(id: string): Promise<Order | undefined> {
     return new Promise((resolve) => {
       setTimeout(() => {
         const order = this.orders.find((o) => o.id === id);
@@ -35,7 +35,7 @@ class OrderService {
 
   async createOrder(
     checkoutData: CheckoutFormData,
-    items: Array<{ productId: number; productName: string; productImage: string; quantity: number; price: number }>,
+    items: Array<{ productId: string; productName: string; productImage: string; quantity: number; price: number }>,
     totals: { subtotal: number; shipping: number; tax: number; total: number }
   ): Promise<Order> {
     return new Promise((resolve) => {
@@ -43,13 +43,13 @@ class OrderService {
         const orderNumber = `ORD-${Math.floor(Math.random() * 9000) + 1000}`;
         
         const newOrder: Order = {
-          id: Math.max(...this.orders.map((o) => o.id), 0) + 1,
+          id: String(Math.max(...this.orders.map((o) => parseInt(o.id)), 0) + 1),
           orderNumber,
-          customerId: Math.floor(Math.random() * 1000) + 1,
+          customerId: String(Math.floor(Math.random() * 1000) + 1),
           customerName: checkoutData.shippingAddress.fullName,
           customerEmail: checkoutData.email,
           items: items.map((item, index) => ({
-            id: index + 1,
+            id: String(index + 1),
             ...item,
             total: item.price * item.quantity,
           })),
@@ -72,7 +72,7 @@ class OrderService {
     });
   }
 
-  async updateOrderStatus(id: number, status: OrderStatus): Promise<Order | undefined> {
+  async updateOrderStatus(id: string, status: OrderStatus): Promise<Order | undefined> {
     return new Promise((resolve) => {
       setTimeout(() => {
         const index = this.orders.findIndex((o) => o.id === id);

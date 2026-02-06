@@ -113,7 +113,7 @@ apiClient.interceptors.response.use(
         refreshSubscribers = [];
         tokenManager.clearTokens();
         
-        window.location.href = '/admin/login';
+        window.location.hash = '/login';
         return Promise.reject(refreshError);
       }
     }

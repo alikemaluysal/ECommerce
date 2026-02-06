@@ -47,12 +47,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
               product: {
                 id: product.id,
                 name: product.name,
+                slug: product.name.toLowerCase().replace(/\s+/g, '-'),
                 description: product.description,
                 price: product.price,
                 stock: product.stock,
                 categoryId: product.categoryId,
                 categoryName: '',
                 primaryImageUrl: product.primaryImageUrl,
+                image: product.primaryImageUrl,
+                images: product.images,
+                specifications: product.specifications,
+                rating: 0,
+                reviewCount: 0,
+                isNew: false,
               },
             };
             return cartItem;

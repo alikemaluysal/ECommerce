@@ -9,6 +9,16 @@ import { productsApi, categoriesApi } from '../../api';
 import { handleApiError } from '../../utils/errorHandler';
 import { ProductSortBy } from '../../types/api';
 import type { Product } from '../../types';
+import type { ProductSearchItemResponse } from '../../types/api';
+
+const mapProductSearchItemToProduct = (item: ProductSearchItemResponse): Product => ({
+  ...item,
+  slug: item.name.toLowerCase().replace(/\s+/g, '-'),
+  image: item.primaryImageUrl,
+  rating: 0,
+  reviewCount: 0,
+  isNew: false,
+});
 import type { CategoryDetailResponse, CategoryResponse } from '../../types/api';
 
 export default function ProductListing() {
@@ -69,7 +79,7 @@ export default function ProductListing() {
         PageRequest: { PageIndex: page, PageSize: 12 },
       });
 
-      setProducts(productsResponse.items);
+      setProducts(productsResponse.items.map(mapProductSearchItemToProduct));
       setTotalPages(productsResponse.pages);
       setCurrentPage(page);
 
