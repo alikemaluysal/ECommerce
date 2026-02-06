@@ -36,7 +36,7 @@ export default function Checkout() {
       showSuccess('Siparişiniz başarıyla oluşturuldu!');
       navigate(`/order-success/${response.id}`);
     } catch (error) {
-      handleApiError(error, 'Sipariş oluşturulurken hata oluştu');
+      handleApiError(error);
     } finally {
       setLoading(false);
     }

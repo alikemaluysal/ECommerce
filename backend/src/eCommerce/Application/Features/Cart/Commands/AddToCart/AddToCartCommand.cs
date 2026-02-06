@@ -37,7 +37,6 @@ public class AddToCartCommand : IRequest<AddedToCartResponse>, ISecuredRequest, 
         public async Task<AddedToCartResponse> Handle(AddToCartCommand request, CancellationToken cancellationToken)
         {
             await _cartBusinessRules.QuantityShouldBeValid(request.Quantity);
-            await _cartBusinessRules.ProductShouldExistAndHaveStock(request.ProductId, request.Quantity, cancellationToken);
             
             CartItem? existingCartItem = await _cartItemRepository.GetAsync(
                 predicate: ci => ci.UserId == request.UserId && ci.ProductId == request.ProductId,
@@ -45,7 +44,10 @@ public class AddToCartCommand : IRequest<AddedToCartResponse>, ISecuredRequest, 
 
             if (existingCartItem != null)
             {
-                existingCartItem.Quantity += request.Quantity;
+                int totalQuantity = existingCartItem.Quantity + request.Quantity;
+                await _cartBusinessRules.ProductShouldExistAndHaveStock(request.ProductId, totalQuantity, cancellationToken);
+                
+                existingCartItem.Quantity = totalQuantity;
                 await _cartItemRepository.UpdateAsync(existingCartItem);
                 
                 AddedToCartResponse response = _mapper.Map<AddedToCartResponse>(existingCartItem);
@@ -53,6 +55,8 @@ public class AddToCartCommand : IRequest<AddedToCartResponse>, ISecuredRequest, 
             }
             else
             {
+                await _cartBusinessRules.ProductShouldExistAndHaveStock(request.ProductId, request.Quantity, cancellationToken);
+                
                 CartItem cartItem = new()
                 {
                     UserId = request.UserId,

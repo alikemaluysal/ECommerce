@@ -1,1 +1,6 @@
 ﻿OrderNotExists: Order don't exists.
+CartIsEmpty: Cart is empty.
+InsufficientStock: Insufficient stock for product.
+OrderDoesNotBelongToUser: Order does not belong to the user.
+UserCanOnlyCancelOrders: User can only cancel their own orders.
+InvalidOrderStatusTransition: Invalid order status transition.

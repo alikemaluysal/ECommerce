@@ -65,7 +65,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
       setItems(itemsWithProducts.filter((item): item is CartItem => item !== null));
     } catch (error) {
-      handleApiError(error, 'Sepet yüklenirken hata oluştu');
+      handleApiError(error);
     } finally {
       setIsLoading(false);
     }
@@ -109,7 +109,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       
       showSuccess('Ürün sepete eklendi');
     } catch (error) {
-      handleApiError(error, 'Ürün sepete eklenirken hata oluştu');
+      handleApiError(error);
     } finally {
       setIsLoading(false);
     }
@@ -127,7 +127,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
       showSuccess('Ürün sepetten çıkarıldı');
     } catch (error) {
-      handleApiError(error, 'Ürün sepetten çıkarılırken hata oluştu');
+      handleApiError(error);
     } finally {
       setIsLoading(false);
     }
@@ -157,7 +157,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         )
       );
     } catch (error) {
-      handleApiError(error, 'Miktar güncellenirken hata oluştu');
+      handleApiError(error);
       await loadCartFromBackend();
     } finally {
       setIsLoading(false);
@@ -176,7 +176,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setItems([]);
       showSuccess('Sepet temizlendi');
     } catch (error) {
-      handleApiError(error, 'Sepet temizlenirken hata oluştu');
+      handleApiError(error);
     } finally {
       setIsLoading(false);
     }
