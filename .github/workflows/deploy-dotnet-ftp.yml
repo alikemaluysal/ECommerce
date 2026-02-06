@@ -1,0 +1,98 @@
+name: Deploy .NET to FTP (IIS Maintenance)
+
+on:
+  push:
+    branches: ["dev"]
+    paths:
+      - "backend/**"
+      - ".github/workflows/deploy-dotnet-ftp.yml"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore
+        working-directory: backend
+        run: dotnet restore
+
+      - name: Publish
+        working-directory: backend
+        run: dotnet publish -c Release -o ../publish
+
+      - name: Create maintenance page
+        run: |
+          cat <<EOF > app_offline.htm
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>Maintenance</title>
+          </head>
+          <body style="font-family: Arial; text-align: center; margin-top: 80px;">
+            <h1>Maintenance in progress</h1>
+            <p>Please try again later.</p>
+          </body>
+          </html>
+          EOF
+
+      - name: Enable maintenance mode
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_PORT: ${{ secrets.FTP_PORT }}
+          FTP_REMOTE_DIR: ${{ secrets.FTP_REMOTE_DIR }}
+        run: |
+          sudo apt-get update && sudo apt-get install -y lftp
+
+          PORT="${FTP_PORT:-21}"
+          REMOTE_DIR="${FTP_REMOTE_DIR:-/}"
+
+          lftp -u "$FTP_USERNAME","$FTP_PASSWORD" -p "$PORT" "$FTP_SERVER" << EOF
+          set ssl:verify-certificate no
+          set ftp:ssl-allow no
+          mkdir -p "$REMOTE_DIR"
+          cd "$REMOTE_DIR"
+          put app_offline.htm
+          quit
+          EOF
+
+      - name: Deploy via FTP (SamKirkland)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT }}
+          local-dir: ./publish/
+          server-dir: ${{ secrets.FTP_REMOTE_DIR }}
+          dangerous-clean-slate: false
+
+      - name: Disable maintenance mode
+        if: always()
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_PORT: ${{ secrets.FTP_PORT }}
+          FTP_REMOTE_DIR: ${{ secrets.FTP_REMOTE_DIR }}
+        run: |
+          sudo apt-get update && sudo apt-get install -y lftp
+
+          PORT="${FTP_PORT:-21}"
+          REMOTE_DIR="${FTP_REMOTE_DIR:-/}"
+
+          lftp -u "$FTP_USERNAME","$FTP_PASSWORD" -p "$PORT" "$FTP_SERVER" << EOF
+          set ssl:verify-certificate no
+          set ftp:ssl-allow no
+          cd "$REMOTE_DIR"
+          rm -f app_offline.htm
+          quit
+          EOF
