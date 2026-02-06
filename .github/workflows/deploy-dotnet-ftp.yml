@@ -42,7 +42,7 @@ jobs:
           </html>
           EOF
 
-      - name: Enable maintenance mode
+      - name: Enable maintenance mode (FTPS)
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -57,25 +57,27 @@ jobs:
 
           lftp -u "$FTP_USERNAME","$FTP_PASSWORD" -p "$PORT" "$FTP_SERVER" << EOF
           set ssl:verify-certificate no
-          set ftp:ssl-allow no
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
           mkdir -p "$REMOTE_DIR"
           cd "$REMOTE_DIR"
           put app_offline.htm
           quit
           EOF
 
-      - name: Deploy via FTP (SamKirkland)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Deploy via FTPS (SamKirkland)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
+          protocol: ftps
           local-dir: ./publish/
-          server-dir: ${{ secrets.FTP_REMOTE_DIR }}
+          server-dir: ${{ secrets.FTP_REMOTE_DIR }}/
           dangerous-clean-slate: false
 
-      - name: Disable maintenance mode
+      - name: Disable maintenance mode (FTPS)
         if: always()
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
@@ -91,7 +93,8 @@ jobs:
 
           lftp -u "$FTP_USERNAME","$FTP_PASSWORD" -p "$PORT" "$FTP_SERVER" << EOF
           set ssl:verify-certificate no
-          set ftp:ssl-allow no
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
           cd "$REMOTE_DIR"
           rm -f app_offline.htm
           quit
