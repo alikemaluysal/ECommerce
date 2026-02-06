@@ -10,7 +10,7 @@ class ProductService {
     });
   }
 
-  async getProductById(id: number): Promise<Product | undefined> {
+  async getProductById(id: string): Promise<Product | undefined> {
     return new Promise((resolve) => {
       setTimeout(() => {
         const product = this.products.find((p) => p.id === id);
@@ -28,7 +28,7 @@ class ProductService {
     });
   }
 
-  async getProductsByCategory(categoryId: number): Promise<Product[]> {
+  async getProductsByCategory(categoryId: string): Promise<Product[]> {
     return new Promise((resolve) => {
       setTimeout(() => {
         const filtered = this.products.filter((p) => p.categoryId === categoryId);
@@ -38,7 +38,7 @@ class ProductService {
   }
 
   async filterProducts(filters: {
-    categoryId?: number;
+    categoryId?: string;
     minPrice?: number;
     maxPrice?: number;
     inStock?: boolean;
@@ -118,7 +118,7 @@ class ProductService {
       setTimeout(() => {
         const newProduct = {
           ...product,
-          id: Math.max(...this.products.map((p) => p.id), 0) + 1,
+          id: String(Math.max(...this.products.map((p) => parseInt(p.id)), 0) + 1),
         };
         this.products.push(newProduct);
         resolve(newProduct);
@@ -126,7 +126,7 @@ class ProductService {
     });
   }
 
-  async updateProduct(id: number, updates: Partial<Product>): Promise<Product | undefined> {
+  async updateProduct(id: string, updates: Partial<Product>): Promise<Product | undefined> {
     return new Promise((resolve) => {
       setTimeout(() => {
         const index = this.products.findIndex((p) => p.id === id);
@@ -140,7 +140,7 @@ class ProductService {
     });
   }
 
-  async deleteProduct(id: number): Promise<boolean> {
+  async deleteProduct(id: string): Promise<boolean> {
     return new Promise((resolve) => {
       setTimeout(() => {
         const index = this.products.findIndex((p) => p.id === id);
@@ -164,7 +164,7 @@ class CategoryService {
     });
   }
 
-  async getCategoryById(id: number): Promise<Category | undefined> {
+  async getCategoryById(id: string): Promise<Category | undefined> {
     return new Promise((resolve) => {
       setTimeout(() => {
         const category = this.categories.find((c) => c.id === id);
@@ -187,7 +187,7 @@ class CategoryService {
       setTimeout(() => {
         const newCategory = {
           ...category,
-          id: Math.max(...this.categories.map((c) => c.id), 0) + 1,
+          id: String(Math.max(...this.categories.map((c) => parseInt(c.id)), 0) + 1),
           productCount: 0,
         };
         this.categories.push(newCategory);
@@ -196,7 +196,7 @@ class CategoryService {
     });
   }
 
-  async updateCategory(id: number, updates: Partial<Category>): Promise<Category | undefined> {
+  async updateCategory(id: string, updates: Partial<Category>): Promise<Category | undefined> {
     return new Promise((resolve) => {
       setTimeout(() => {
         const index = this.categories.findIndex((c) => c.id === id);
@@ -210,7 +210,7 @@ class CategoryService {
     });
   }
 
-  async deleteCategory(id: number): Promise<boolean> {
+  async deleteCategory(id: string): Promise<boolean> {
     return new Promise((resolve) => {
       setTimeout(() => {
         const index = this.categories.findIndex((c) => c.id === id);

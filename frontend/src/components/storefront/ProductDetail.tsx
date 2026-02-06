@@ -48,14 +48,19 @@ export default function ProductDetail() {
       const productForCart: Product = {
         id: product.id,
         name: product.name,
+        slug: product.name.toLowerCase().replace(/\s+/g, '-'),
         description: product.description,
         price: product.price,
         stock: product.stock,
         categoryId: product.categoryId,
         categoryName: category?.name || '',
         primaryImageUrl: product.primaryImageUrl,
+        image: product.primaryImageUrl,
         images: product.images,
         specifications: product.specifications,
+        rating: 0,
+        reviewCount: 0,
+        isNew: false,
       };
       
       await addToCart(productForCart, quantity);
