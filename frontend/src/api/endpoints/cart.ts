@@ -15,17 +15,17 @@ export const cartApi = {
   },
 
   async addItem(item: AddToCartRequest): Promise<CartItemResponse> {
-    const response = await apiClient.post<CartItemResponse>('/Cart/items', item);
+    const response = await apiClient.post<CartItemResponse>('/Cart/add', item);
     return response.data;
   },
 
   async updateItem(itemId: string, data: UpdateCartItemRequest): Promise<CartItemResponse> {
-    const response = await apiClient.put<CartItemResponse>(`/Cart/items/${itemId}`, data);
+    const response = await apiClient.put<CartItemResponse>(`/Cart/update/${itemId}`, data);
     return response.data;
   },
 
   async removeItem(itemId: string): Promise<RemoveCartItemResponse> {
-    const response = await apiClient.delete<RemoveCartItemResponse>(`/Cart/items/${itemId}`);
+    const response = await apiClient.delete<RemoveCartItemResponse>(`/Cart/remove/${itemId}`);
     return response.data;
   },
 

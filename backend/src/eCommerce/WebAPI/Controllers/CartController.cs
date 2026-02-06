@@ -11,7 +11,7 @@ namespace WebAPI.Controllers;
 [ApiController]
 public class CartController : BaseController
 {
-    [HttpPost("items")]
+    [HttpPost("add")]
     public async Task<ActionResult<AddedToCartResponse>> AddToCart([FromBody] AddToCartCommand command)
     {
         command.UserId = getUserIdFromRequest();
@@ -19,7 +19,7 @@ public class CartController : BaseController
         return Ok(response);
     }
 
-    [HttpPut("items/{itemId}")]
+    [HttpPut("update/{itemId}")]
     public async Task<ActionResult<UpdatedCartItemResponse>> UpdateCartItem(
         [FromRoute] Guid itemId,
         [FromBody] UpdateCartItemRequest request)
@@ -30,7 +30,7 @@ public class CartController : BaseController
         return Ok(response);
     }
 
-    [HttpDelete("items/{itemId}")]
+    [HttpDelete("remove/{itemId}")]
     public async Task<ActionResult<RemovedFromCartResponse>> RemoveFromCart([FromRoute] Guid itemId)
     {
         Guid userId = getUserIdFromRequest();

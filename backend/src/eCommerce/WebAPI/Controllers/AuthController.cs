@@ -28,7 +28,7 @@ public class AuthController : BaseController
             ?? throw new NullReferenceException($"\"{configurationSection}\" section cannot found in configuration.");
     }
 
-    [HttpPost("Login")]
+    [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] UserForLoginDto userForLoginDto)
     {
         LoginCommand loginCommand = new() { UserForLoginDto = userForLoginDto, IpAddress = getIpAddress() };
@@ -40,7 +40,7 @@ public class AuthController : BaseController
         return Ok(result.ToHttpResponse());
     }
 
-    [HttpPost("Register")]
+    [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] UserForRegisterDto userForRegisterDto)
     {
         RegisterCommand registerCommand = new() { UserForRegisterDto = userForRegisterDto, IpAddress = getIpAddress() };
@@ -49,7 +49,7 @@ public class AuthController : BaseController
         return Created(uri: "", result.AccessToken);
     }
 
-    [HttpGet("RefreshToken")]
+    [HttpGet("refresh-token")]
     public async Task<IActionResult> RefreshToken()
     {
         RefreshTokenCommand refreshTokenCommand =
@@ -59,7 +59,7 @@ public class AuthController : BaseController
         return Created(uri: "", result.AccessToken);
     }
 
-    [HttpGet("Me")]
+    [HttpGet("me")]
     public async Task<IActionResult> Me()
     {
         GetByIdUserQuery getByIdUserQuery = new() { Id = getUserIdFromRequest() };
@@ -67,7 +67,7 @@ public class AuthController : BaseController
         return Ok(result);
     }
 
-    [HttpPut("RevokeToken")]
+    [HttpPut("revoke-token")]
     public async Task<IActionResult> RevokeToken([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)] string? refreshToken)
     {
         RevokeTokenCommand revokeTokenCommand =

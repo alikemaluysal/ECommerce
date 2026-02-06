@@ -49,7 +49,7 @@ export const ordersApi = {
     pageSize: number = 10
   ): Promise<PaginatedResponse<OrderListItemResponse>> {
     const response = await apiClient.get<PaginatedResponse<OrderListItemResponse>>(
-      '/admin/orders',
+      '/Orders/admin',
       {
         params: { PageIndex: pageIndex, PageSize: pageSize },
       }
@@ -62,7 +62,7 @@ export const ordersApi = {
     request: UpdateOrderStatusRequest
   ): Promise<UpdateOrderStatusResponse> {
     const response = await apiClient.put<UpdateOrderStatusResponse>(
-      `/admin/orders/${id}/status`,
+      `/Orders/${id}/admin/status`,
       request
     );
     return response.data;

@@ -11,7 +11,7 @@ import type {
 
 export const authApi = {
   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    const response = await apiClient.post<LoginResponse>('/Auth/Login', credentials);
+    const response = await apiClient.post<LoginResponse>('/Auth/login', credentials);
     
     if (response.data.accessToken) {
       tokenManager.setAccessToken(response.data.accessToken.token);
@@ -23,7 +23,7 @@ export const authApi = {
 
 
   async register(credentials: RegisterRequest): Promise<RegisterResponse> {
-    const response = await apiClient.post<RegisterResponse>('/Auth/Register', credentials);
+    const response = await apiClient.post<RegisterResponse>('/Auth/register', credentials);
     
     if (response.data.token) {
       tokenManager.setAccessToken(response.data.token);
@@ -35,7 +35,7 @@ export const authApi = {
 
 
   async refreshToken(): Promise<RefreshTokenResponse> {
-    const response = await apiClient.get<RefreshTokenResponse>('/Auth/RefreshToken');
+    const response = await apiClient.get<RefreshTokenResponse>('/Auth/refresh-token');
     
     if (response.data.token) {
       tokenManager.setAccessToken(response.data.token);
@@ -47,13 +47,13 @@ export const authApi = {
 
 
   async getMe(): Promise<UserMeResponse> {
-    const response = await apiClient.get<UserMeResponse>('/Auth/Me');
+    const response = await apiClient.get<UserMeResponse>('/Auth/me');
     return response.data;
   },
 
 
   async revokeToken(): Promise<RevokeTokenResponse> {
-    const response = await apiClient.put<RevokeTokenResponse>('/Auth/RevokeToken');
+    const response = await apiClient.put<RevokeTokenResponse>('/Auth/revoke-token');
     
     tokenManager.clearTokens();
     
