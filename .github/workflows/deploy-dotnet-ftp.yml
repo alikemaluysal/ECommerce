@@ -1,4 +1,4 @@
-name: Deploy .NET to FTP
+name: Release and Deploy to Web Hosting (Hybrid - Fast)
 
 on:
   push:
@@ -15,32 +15,30 @@ concurrency:
 
 env:
   DOTNET_VERSION: "8.0.x"
+  PROJECT_PATH: "backend/src/eCommerce/WebAPI/WebAPI.csproj" 
   PUBLISH_PATH: "./publish"
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
+      - name: Clean publish folder
+        run: rm -rf "${{ env.PUBLISH_PATH }}"
+
       - name: Restore
-        working-directory: backend
-        run: dotnet restore
+        run: dotnet restore "${{ env.PROJECT_PATH }}"
 
       - name: Build
-        working-directory: backend
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build "${{ env.PROJECT_PATH }}" --configuration Release --no-restore
 
       - name: Publish
-        working-directory: backend
-        run: dotnet publish --configuration Release --output ../publish --no-build
+        run: dotnet publish "${{ env.PROJECT_PATH }}" --configuration Release --output "${{ env.PUBLISH_PATH }}" --no-build
 
       - name: Install lftp
         run: |
@@ -62,7 +60,7 @@ jobs:
           </html>
           EOF
 
-      - name: Enable maintenance mode (FTPS)
+      - name: Put app_offline.htm (via lftp - FAST)
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -80,14 +78,13 @@ jobs:
             set net:max-retries 50;
             set net:reconnect-interval-base 5;
             set net:reconnect-interval-max 30;
-
             open -u $FTP_USERNAME,$FTP_PASSWORD -p $FTP_PORT $FTP_SERVER;
             cd $FTP_REMOTE_DIR;
             put app_offline.htm;
             bye
           "
 
-      - name: Deploy via FTPS (Only Changed Files)
+      - name: Deploy to Web Hosting via FTPS (Only Changed Files)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -96,7 +93,7 @@ jobs:
           protocol: ftps
           port: ${{ secrets.FTP_PORT }}
           local-dir: ${{ env.PUBLISH_PATH }}/
-          server-dir: ${{ secrets.FTP_REMOTE_DIR }}/
+          server-dir: ${{ secrets.FTP_REMOTE_DIR }}
           state-name: .ftp-deploy-sync-state.json
           dangerous-clean-slate: false
           log-level: standard
@@ -107,8 +104,17 @@ jobs:
             app_offline.htm
             appsettings.Development.json
             **/*.pdb
+            **/CodeCoverage/**
+            **/InstrumentationEngine/**
+            **/runtimes/**
+            **/*.Tests.*
+            **/testhost.dll
+            **/xunit*.dll
+            **/coverlet*.*
+            **/Microsoft.TestPlatform*.dll
+            **/Microsoft.VisualStudio.TestPlatform*.dll
 
-      - name: Disable maintenance mode (FTPS)
+      - name: Remove app_offline.htm (via lftp - FAST)
         if: always()
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
@@ -127,7 +133,6 @@ jobs:
             set net:max-retries 50;
             set net:reconnect-interval-base 5;
             set net:reconnect-interval-max 30;
-
             open -u $FTP_USERNAME,$FTP_PASSWORD -p $FTP_PORT $FTP_SERVER;
             cd $FTP_REMOTE_DIR;
             rm -f app_offline.htm;
