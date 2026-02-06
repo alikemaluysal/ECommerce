@@ -2,8 +2,7 @@ name: Release and Deploy to Web Hosting (Hybrid - Fast)
 
 on:
   push:
-    branches:
-      - dev
+    branches: [ "master" ]
     paths:
       - "backend/**"
       - ".github/workflows/deploy-dotnet-ftp.yml"
